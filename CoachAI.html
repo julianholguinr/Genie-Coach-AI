@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">FitGenie AI Coach</title>
+<script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+    <style>
+        .glass-card {
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            background-color: rgba(255, 255, 255, 0.75);
+            border-radius: 12px;
+            border: 1px solid rgba(209, 213, 219, 0.3);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #1e40af;
+            cursor: pointer;
+        }
+</style>
+</head>
+<body class="min-h-screen gradient-bg" id="vanta-bg">
+    <div class="container mx-auto px-4 py-12">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <header class="text-center mb-12">
+<h1 class="text-4xl md:text-5xl font-bold text-white mb-4" id="main-heading">FitGenie AI Coach 🧞‍♂️</h1>
+                <p class="text-xl text-white opacity-90" id="sub-heading">Your personalized fitness and nutrition wizard</p>
+            </header>
+<!-- Main Card -->
+            <div class="glass-card p-6 md:p-8 shadow-xl">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Input Section -->
+                    <div class="md:w-1/2">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6" id="input-section">Your Fitness Profile</h2>
+<div class="space-y-6">
+                            <!-- Height Input -->
+                            <div>
+                                <label class="block text-gray-700 mb-2" for="height">Height (cm)</label>
+                                <input type="range" id="height" min="120" max="220" value="170" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                <div class="flex justify-between mt-2">
+                                    <span class="text-gray-600">120cm</span>
+                                    <span id="height-value" class="font-medium">170cm</span>
+                                    <span class="text-gray-600">220cm</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Weight Input -->
+                            <div>
+                                <label class="block text-gray-700 mb-2" for="weight">Weight (kg)</label>
+                                <input type="range" id="weight" min="40" max="150" value="70" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                <div class="flex justify-between mt-2">
+                                    <span class="text-gray-600">40kg</span>
+                                    <span id="weight-value" class="font-medium">70kg</span>
+                                    <span class="text-gray-600">150kg</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Age Input -->
+                            <div>
+                                <label class="block text-gray-700 mb-2" for="age">Age</label>
+                                <input type="range" id="age" min="16" max="80" value="30" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                <div class="flex justify-between mt-2">
+                                    <span class="text-gray-600">16</span>
+                                    <span id="age-value" class="font-medium">30</span>
+                                    <span class="text-gray-600">80</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Availability -->
+                            <div>
+                                <label class="block text-gray-700 mb-2">Weekly Availability</label>
+                                <div class="grid grid-cols-4 gap-2">
+                            <button class="day-btn py-2 px-1 rounded-full bg-gray-200 text-gray-700 hover:bg-blue-700 hover:text-white transition" data-value="2">2 days</button>
+                            <button class="day-btn py-2 px-1 rounded-full bg-gray-200 text-gray-700 hover:bg-blue-700 hover:text-white transition" data-value="3">3 days</button>
+                            <button class="day-btn py-2 px-1 rounded-full bg-gray-200 text-gray-700 hover:bg-blue-700 hover:text-white transition" data-value="4">4 days</button>
+                            <button class="day-btn py-2 px-1 rounded-full bg-gray-200 text-gray-700 hover:bg-blue-700 hover:text-white transition" data-value="5">5+ days</button>
+</div>
+                            </div>
+                            
+                            <!-- Goals -->
+                            <div>
+                            <label class="block text-gray-700 mb-2" id="goal-label">Primary Goal</label>
+<div class="grid grid-cols-3 gap-2">
+                                    <button class="goal-btn py-2 px-1 rounded-full bg-gray-200 text-gray-700 hover:bg-blue-700 hover:text-white transition" data-value="weight-loss">
+                                        <i data-feather="activity" class="inline mr-1"></i> Lose Fat
+                                    </button>
+                                    <button class="goal-btn py-2 px-1 rounded-full bg-gray-200 text-gray-700 hover:bg-blue-700 hover:text-white transition" data-value="muscle-gain">
+                                        <i data-feather="shield" class="inline mr-1"></i> Gain Muscle
+                                    </button>
+                                    <button class="goal-btn py-2 px-1 rounded-full bg-gray-200 text-gray-700 hover:bg-blue-700 hover:text-white transition" data-value="maintenance">
+                                        <i data-feather="heart" class="inline mr-1"></i> Maintain
+                                    </button>
+</div>
+                            </div>
+                        </div>
+                        <button id="generate-btn" class="mt-8 w-full bg-gradient-to-r from-blue-700 to-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:opacity-90 transition shadow-lg flex items-center justify-center">
+<i data-feather="search" class="mr-2"></i> Generate My Plan
+</button>
+                    </div>
+                    
+                    <!-- Results Preview -->
+                    <div class="md:w-1/2">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Your AI-Powered Plan</h2>
+                        
+                        <div class="bg-white bg-opacity-50 rounded-lg p-6 h-full">
+                            <div class="flex flex-col items-center justify-center h-full text-center">
+                                <div class="mb-6">
+                                    <i data-feather="loader" class="w-12 h-12 text-purple-600 mb-4 mx-auto"></i>
+                                    <h3 class="text-xl font-medium text-gray-700" id="complete-text">Complete your profile</h3>
+                                    <p class="text-gray-600 mt-2" id="fill-text">Fill in your details and let the FitGenie work its magic!</p>
+                                </div>
+<div id="bmi-result" class="hidden">
+                                    <div class="text-4xl font-bold text-blue-700 mb-2">22.5</div>
+                                <div class="text-sm text-gray-600 uppercase tracking-wider" id="bmi-text">Your BMI</div>
+<div class="text-green-600 text-sm mt-1 font-medium">Healthy Range</div>
+                                </div>
+                                
+                                <div id="plan-preview" class="hidden w-full mt-6 text-left">
+                                    <div class="mb-6">
+                <h4 class="font-semibold text-gray-800 mb-2 flex items-center" id="workout-title">
+                    <i data-feather="clock" class="mr-2 w-4 h-4"></i> Recommended Workouts
+                </h4>
+<div class="bg-gray-100 rounded-lg p-3 space-y-2">
+                                            <div id="workout-recommendations">
+                                                <div class="flex justify-between">
+                                                    <span>Strength Training</span>
+                                                    <span class="font-medium">3 days/week</span>
+                                                </div>
+                                                <div class="flex justify-between">
+                                                    <span>Cardio</span>
+                                                    <span class="font-medium">2 days/week</span>
+                                                </div>
+                                            </div>
+</div>
+                                    </div>
+                                    
+                                    <div>
+                <h4 class="font-semibold text-gray-800 mb-2 flex items-center" id="calorie-title">
+                    <i data-feather="sun" class="mr-2 w-4 h-4"></i> Daily Calorie Target
+                </h4>
+<div class="bg-gray-100 rounded-lg p-3" id="calorie-display">
+                                    <div class="text-2xl font-bold text-blue-700" id="calorie-target">2,150 kcal</div>
+                                <div class="text-sm text-gray-600 mt-1" id="macro-ratio">Macros: </div>
+</div>
+</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Generated Plan Section (Hidden by default) -->
+            <div id="full-plan" class="hidden glass-card p-6 md:p-8 shadow-xl mt-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-800">Your Customized Fitness Plan</h2>
+                                    <button id="print-btn" class="flex items-center text-blue-700 hover:text-blue-900">
+<i data-feather="printer" class="mr-1 w-4 h-4"></i> Print Plan
+                    </button>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Nutrition Plan -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <i data-feather="sun" class="mr-2 w-5 h-5"></i> Nutrition Plan
+                        </h3>
+                        
+                        <div class="space-y-4">
+                            <div class="bg-white bg-opacity-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-2">Calorie Target</h4>
+                                <div class="text-2xl font-bold text-blue-700" id="detailed-calories">2,150 kcal/day</div>
+                                <div class="flex justify-between text-sm text-gray-600 mt-2" id="detailed-macros">
+                                    <span>Carbs: 860 kcal (215g)</span>
+                                    <span>Protein: 645 kcal (161g)</span>
+                                    <span>Fat: 645 kcal (72g)</span>
+                                </div>
+</div>
+                            
+                            <div class="bg-white bg-opacity-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-2">Sample Meal Plan</h4>
+                                <div class="space-y-3" id="meal-plan">
+                                    <div>
+                                        <div class="font-medium text-gray-700">Breakfast</div>
+                                        <div class="text-sm text-gray-600" id="breakfast">Greek yogurt with berries and almonds</div>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-700">Lunch</div>
+                                        <div class="text-sm text-gray-600" id="lunch">Grilled chicken with quinoa and roasted vegetables</div>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-700">Dinner</div>
+                                        <div class="text-sm text-gray-600" id="dinner">Salmon with sweet potato and steamed broccoli</div>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-700">Snacks</div>
+                                        <div class="text-sm text-gray-600" id="snacks">Protein shake, apple with peanut butter</div>
+                                    </div>
+                                </div>
+</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Workout Plan -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <i data-feather="activity" class="mr-2 w-5 h-5"></i> Workout Plan
+                        </h3>
+                        
+                        <div class="space-y-4">
+                            <div class="bg-white bg-opacity-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-2">Weekly Schedule</h4>
+                                <div class="space-y-2" id="weekly-schedule">
+                                    <div class="flex justify-between">
+                                        <span>Monday</span>
+                                        <span class="font-medium" id="monday-workout">Upper Body Strength</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Wednesday</span>
+                                        <span class="font-medium" id="wednesday-workout">Lower Body Strength</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Friday</span>
+                                        <span class="font-medium" id="friday-workout">Full Body Circuit</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Saturday</span>
+                                        <span class="font-medium" id="saturday-workout">Cardio (30 min)</span>
+                                    </div>
+                                </div>
+</div>
+                            
+                            <div class="bg-white bg-opacity-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-2">Today's Workout</h4>
+                                <div class="space-y-3" id="today-workout">
+                                    <div>
+                                        <div class="font-medium text-gray-700">Warm-up</div>
+                                        <div class="text-sm text-gray-600" id="warmup">5 min dynamic stretching</div>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-700">Main Workout</div>
+                                        <ul class="text-sm text-gray-600 list-disc list-inside" id="main-workout">
+                                            <li>Barbell Squats: 3x12</li>
+                                            <li>Romanian Deadlifts: 3x10</li>
+                                            <li>Walking Lunges: 3x8 each leg</li>
+                                            <li>Leg Press: 3x12</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-700">Cool Down</div>
+                                        <div class="text-sm text-gray-600" id="cooldown">5 min stretching</div>
+                                    </div>
+                                </div>
+</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 bg-white bg-opacity-50 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-800 mb-2 flex items-center">
+                        <i data-feather="feather" class="mr-2 w-5 h-5"></i> Personalized Advice
+                    </h3>
+                    <p class="text-gray-700" id="personalized-advice">Based on your profile, we recommend focusing on compound movements for strength training and incorporating HIIT cardio 1-2 times per week for optimal fat loss while preserving muscle mass. Make sure to stay hydrated and get 7-8 hours of sleep nightly for best results.</p>
+</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Vanta.js background
+VANTA.GLOBE({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x2563eb,
+            backgroundColor: 0x1e3a8a,
+size: 0.8
+        });
+
+        // Initialize feather icons
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+// Update slider values
+            const heightSlider = document.getElementById('height');
+            const weightSlider = document.getElementById('weight');
+            const ageSlider = document.getElementById('age');
+            const heightValue = document.getElementById('height-value');
+            const weightValue = document.getElementById('weight-value');
+            const ageValue = document.getElementById('age-value');
+            
+            heightSlider.addEventListener('input', () => {
+                heightValue.textContent = `${heightSlider.value}cm`;
+            });
+            
+            weightSlider.addEventListener('input', () => {
+                weightValue.textContent = `${weightSlider.value}kg`;
+            });
+            
+            ageSlider.addEventListener('input', () => {
+                ageValue.textContent = ageSlider.value;
+            });
+            
+            // Day selection
+            const dayButtons = document.querySelectorAll('.day-btn');
+            dayButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    dayButtons.forEach(btn => btn.classList.remove('bg-blue-700', 'text-white'));
+                    button.classList.add('bg-blue-700', 'text-white');
+});
+            });
+            
+            // Goal selection
+            const goalButtons = document.querySelectorAll('.goal-btn');
+            goalButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    goalButtons.forEach(btn => btn.classList.remove('bg-blue-700', 'text-white'));
+                    button.classList.add('bg-blue-700', 'text-white');
+});
+            });
+            
+            // Generate plan
+            const generateBtn = document.getElementById('generate-btn');
+            const bmiResult = document.getElementById('bmi-result');
+            const planPreview = document.getElementById('plan-preview');
+            const fullPlan = document.getElementById('full-plan');
+            generateBtn.addEventListener('click', () => {
+                // Get user inputs
+                const height = parseFloat(heightSlider.value) / 100; // convert to meters
+                const weight = parseFloat(weightSlider.value);
+                const age = parseInt(ageSlider.value);
+                
+                // Calculate BMI
+                const bmi = (weight / (height * height)).toFixed(1);
+                
+                // Get selected goal
+                const selectedGoal = document.querySelector('.goal-btn.bg-blue-700')?.dataset.value || 'weight-loss';
+                
+                // Update BMI display
+                document.querySelector('#bmi-result div:first-child').textContent = bmi;
+                
+                // Update status based on BMI
+                const bmiStatus = document.querySelector('#bmi-result div:last-child');
+                let bmiCategory = '';
+                if (bmi < 18.5) {
+                    bmiStatus.textContent = 'Underweight';
+                    bmiStatus.className = 'text-yellow-600 text-sm mt-1 font-medium';
+                    bmiCategory = 'underweight';
+                } else if (bmi >= 18.5 && bmi < 25) {
+                    bmiStatus.textContent = 'Healthy Range';
+                    bmiStatus.className = 'text-green-600 text-sm mt-1 font-medium';
+                    bmiCategory = 'healthy';
+                } else if (bmi >= 25 && bmi < 30) {
+                    bmiStatus.textContent = 'Overweight';
+                    bmiStatus.className = 'text-orange-600 text-sm mt-1 font-medium';
+                    bmiCategory = 'overweight';
+                } else {
+                    bmiStatus.textContent = 'Obese';
+                    bmiStatus.className = 'text-red-600 text-sm mt-1 font-medium';
+                    bmiCategory = 'obese';
+                }
+                
+                // Calculate BMR and calorie needs
+                let bmr;
+                let activityFactor = 1.375; // Moderate activity by default
+                
+                if (document.querySelector('.day-btn.bg-blue-700')?.dataset.value === "2") {
+                    activityFactor = 1.2;
+                } else if (document.querySelector('.day-btn.bg-blue-700')?.dataset.value === "5+") {
+                    activityFactor = 1.55;
+                }
+                
+                // Mifflin-St Jeor Equation
+                bmr = (10 * weight) + (6.25 * (height*100)) - (5 * age) + 5;
+                
+                // Adjust calories based on goal
+                let calorieTarget;
+                if (selectedGoal === 'weight-loss') {
+                    calorieTarget = Math.round(bmr * activityFactor * 0.85);
+                } else if (selectedGoal === 'muscle-gain') {
+                    calorieTarget = Math.round(bmr * activityFactor * 1.15);
+                } else { // maintenance
+                    calorieTarget = Math.round(bmr * activityFactor);
+                }
+                
+                // Set macros based on goal and BMI
+                let carbPct, proteinPct, fatPct;
+                if (selectedGoal === 'muscle-gain') {
+                    proteinPct = 35;
+                    carbPct = 40;
+                    fatPct = 25;
+                } else if (selectedGoal === 'weight-loss' && bmiCategory === 'obese') {
+                    proteinPct = 40;
+                    carbPct = 30;
+                    fatPct = 30;
+                } else if (selectedGoal === 'weight-loss') {
+                    proteinPct = 35;
+                    carbPct = 35;
+                    fatPct = 30;
+                } else { // maintenance
+                    proteinPct = 30;
+                    carbPct = 40;
+                    fatPct = 30;
+                }
+                
+                // Update calorie and macro displays
+                document.getElementById('calorie-target').textContent = `${calorieTarget.toLocaleString()} kcal`;
+                document.getElementById('macro-ratio').textContent = `Macros: ${carbPct}%C / ${proteinPct}%P / ${fatPct}%F`;
+                document.getElementById('detailed-calories').textContent = `${calorieTarget.toLocaleString()} kcal/day`;
+                
+                // Calculate macro grams
+                const carbGrams = Math.round((calorieTarget * carbPct/100) / 4);
+                const proteinGrams = Math.round((calorieTarget * proteinPct/100) / 4);
+                const fatGrams = Math.round((calorieTarget * fatPct/100) / 9);
+                
+                document.getElementById('detailed-macros').innerHTML = `
+                    <span>Carbs: ${Math.round(calorieTarget * carbPct/100)} kcal (${carbGrams}g)</span>
+                    <span>Protein: ${Math.round(calorieTarget * proteinPct/100)} kcal (${proteinGrams}g)</span>
+                    <span>Fat: ${Math.round(calorieTarget * fatPct/100)} kcal (${fatGrams}g)</span>
+                `;
+                
+                // Generate workout plan based on goal and BMI
+                let workoutDays = 3; // default
+                let cardioDays = 2; // default
+                let workoutFocus = "Full Body";
+                
+                if (selectedGoal === 'muscle-gain') {
+                    workoutDays = 4;
+                    cardioDays = 1;
+                    workoutFocus = "Split Routine";
+                } else if (selectedGoal === 'weight-loss') {
+                    if (bmiCategory === 'obese') {
+                        workoutDays = 2;
+                        cardioDays = 3;
+                        workoutFocus = "Low Impact";
+                    } else {
+                        workoutDays = 3;
+                        cardioDays = 3;
+                        workoutFocus = "Circuit Training";
+                    }
+                }
+                
+                // Update workout recommendations
+                document.getElementById('workout-recommendations').innerHTML = `
+                    <div class="flex justify-between">
+                        <span>${workoutFocus} Training</span>
+                        <span class="font-medium">${workoutDays} days/week</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Cardio</span>
+                        <span class="font-medium">${cardioDays} days/week</span>
+                    </div>
+                `;
+                
+                // Generate weekly schedule
+                const weekSchedule = [];
+                if (workoutDays === 2) {
+                    weekSchedule.push({day: "Monday", workout: "Upper Body Strength"});
+                    weekSchedule.push({day: "Thursday", workout: "Lower Body Strength"});
+                    weekSchedule.push({day: "Saturday", workout: "Cardio (30 min)"});
+                } else if (workoutDays === 3 && workoutFocus === "Circuit Training") {
+                    weekSchedule.push({day: "Monday", workout: "Full Body Circuit"});
+                    weekSchedule.push({day: "Wednesday", workout: "HIIT Cardio"});
+                    weekSchedule.push({day: "Friday", workout: "Strength Circuit"});
+                    weekSchedule.push({day: "Saturday", workout: "Walking (45 min)"});
+                } else if (workoutDays === 4) {
+                    weekSchedule.push({day: "Monday", workout: "Chest & Triceps"});
+                    weekSchedule.push({day: "Tuesday", workout: "Back & Biceps"});
+                    weekSchedule.push({day: "Thursday", workout: "Legs"});
+                    weekSchedule.push({day: "Friday", workout: "Shoulders & Abs"});
+                    weekSchedule.push({day: "Saturday", workout: "Cardio (20 min)"});
+                }
+                
+                // Update weekly schedule
+                document.getElementById('weekly-schedule').innerHTML = weekSchedule.map(item => `
+                    <div class="flex justify-between">
+                        <span>${item.day}</span>
+                        <span class="font-medium">${item.workout}</span>
+                    </div>
+                `).join('');
+                
+                // Generate today's workout
+                let warmup = "5 min dynamic stretching";
+                let cooldown = "5 min stretching";
+                let mainWorkout = [];
+                
+                if (workoutFocus === "Split Routine") {
+                    mainWorkout = [
+                        "Bench Press: 4x8-10",
+                        "Incline Dumbbell Press: 3x10",
+                        "Tricep Dips: 3x12",
+                        "Overhead Tricep Extension: 3x12"
+                    ];
+                } else if (workoutFocus === "Circuit Training") {
+                    mainWorkout = [
+                        "Squats: 3x15",
+                        "Push-ups: 3xAMRAP",
+                        "Lunges: 3x10 each leg",
+                        "Plank: 3x30 sec",
+                        "Jump Rope: 3x1 min"
+                    ];
+                } else if (workoutFocus === "Low Impact") {
+                    mainWorkout = [
+                        "Seated Leg Press: 3x12",
+                        "Wall Push-ups: 3x12",
+                        "Chair Squats: 3x10",
+                        "Resistance Band Rows: 3x12"
+                    ];
+                    warmup = "5 min light walking";
+                } else { // Full Body default
+                    mainWorkout = [
+                        "Squats: 3x10",
+                        "Push-ups: 3x10",
+                        "Bent-over Rows: 3x10",
+                        "Lunges: 3x8 each leg"
+                    ];
+                }
+                
+                // Update today's workout
+                document.getElementById('warmup').textContent = warmup;
+                document.getElementById('cooldown').textContent = cooldown;
+                document.getElementById('main-workout').innerHTML = mainWorkout.map(ex => `<li>${ex}</li>`).join('');
+                
+                // Generate meal plan
+                let breakfast, lunch, dinner, snacks;
+                
+                if (selectedGoal === 'weight-loss' && bmiCategory === 'obese') {
+                    breakfast = "2 boiled eggs with spinach and 1 slice whole grain toast";
+                    lunch = "Grilled chicken salad with mixed greens, cherry tomatoes, cucumber and olive oil dressing";
+                    dinner = "Baked salmon with steamed broccoli and cauliflower rice";
+                    snacks = "Greek yogurt with cinnamon, handful of almonds";
+                } else if (selectedGoal === 'weight-loss') {
+                    breakfast = "Oatmeal with protein powder and blueberries";
+                    lunch = "Turkey wrap with whole wheat tortilla, avocado and veggies";
+                    dinner = "Grilled shrimp with quinoa and roasted Brussels sprouts";
+                    snacks = "Cottage cheese with cucumber slices, protein shake";
+                } else if (selectedGoal === 'muscle-gain') {
+                    breakfast = "4 scrambled eggs with cheese, 2 slices whole grain toast with peanut butter";
+                    lunch = "150g grilled chicken with 1 cup brown rice and mixed vegetables";
+                    dinner = "200g lean beef with sweet potato and roasted asparagus";
+                    snacks = "Protein shake with banana, hard boiled eggs";
+                } else { // maintenance
+                    breakfast = "Greek yogurt with granola and mixed berries";
+                    lunch = "Grilled salmon with quinoa and roasted vegetables";
+                    dinner = "Chicken stir-fry with brown rice and mixed veggies";
+                    snacks = "Apple with almond butter, protein bar";
+                }
+                
+                // Update meal plan
+                document.getElementById('breakfast').textContent = breakfast;
+                document.getElementById('lunch').textContent = lunch;
+                document.getElementById('dinner').textContent = dinner;
+                document.getElementById('snacks').textContent = snacks;
+                
+                // Generate personalized advice
+                let advice = "";
+                
+                if (selectedGoal === 'weight-loss') {
+                    if (bmiCategory === 'obese') {
+                        advice = "Focus on creating a sustainable calorie deficit through a combination of diet and low-impact exercise. Walking is excellent - aim for 8,000-10,000 steps daily. Strength training will help preserve muscle mass during weight loss.";
+                    } else {
+                        advice = "For optimal fat loss while preserving muscle, combine strength training 2-3x/week with HIIT cardio 1-2x/week. Track your food intake to ensure you're in a moderate calorie deficit (300-500 kcal/day).";
+                    }
+                } else if (selectedGoal === 'muscle-gain') {
+                    advice = "Prioritize progressive overload in your strength training and consume adequate protein (1g per pound of body weight). Get sufficient rest between workouts (48 hours for each muscle group) and aim for 7-9 hours of sleep nightly.";
+                } else {
+                    advice = "Maintain a balanced routine with strength training 2-3x/week and cardio 2-3x/week. Focus on consistency rather than intensity, and enjoy a varied diet with all food groups.";
+                }
+                
+                document.getElementById('personalized-advice').textContent = advice;
+                
+                // Show results
+                bmiResult.classList.remove('hidden');
+                planPreview.classList.remove('hidden');
+                fullPlan.classList.remove('hidden');
+                
+                // Scroll to full plan
+                setTimeout(() => {
+                    fullPlan.scrollIntoView({ behavior: 'smooth' });
+                }, 300);
+});
+            
+            // Print button
+            const printBtn = document.getElementById('print-btn');
+            printBtn.addEventListener('click', () => {
+                window.print();
+            });
+        });
+    </script>
+</body>
+</html>
